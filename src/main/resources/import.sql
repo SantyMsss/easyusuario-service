@@ -1,0 +1,10 @@
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('jperez', 'jperez@gmail.com', 'password123', '3001234567', 3000000.0, 1500000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('mgarcia', 'mgarcia@hotmail.com', 'pass456', '3109876543', 2500000.0, 1200000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('lrodriguez', 'lrodriguez@yahoo.com', 'mypass789', '3201122334', 4000000.0, 2000000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('cmartinez', 'cmartinez@gmail.com', 'secure123', '3154445566', 3500000.0, 1800000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('alopez', 'alopez@outlook.com', 'pass2024', '3187778899', 2800000.0, 1400000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('sgonzalez', 'sgonzalez@gmail.com', 'admin456', '3123334455', 5000000.0, 2500000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('dhernandez', 'dhernandez@hotmail.com', 'user789', '3165556677', 3200000.0, 1600000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('rdiaz', 'rdiaz@gmail.com', 'mykey123', '3198889900', 2700000.0, 1350000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('ftorres', 'ftorres@yahoo.com', 'passw0rd', '3141112233', 4500000.0, 2250000.0);
+INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('vramirez', 'vramirez@gmail.com', 'secure789', '3176667788', 3300000.0, 1650000.0);
