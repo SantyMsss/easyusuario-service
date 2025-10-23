@@ -1,10 +1,24 @@
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('jperez', 'jperez@gmail.com', 'password123', '3001234567', 3000000.0, 1500000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('mgarcia', 'mgarcia@hotmail.com', 'pass456', '3109876543', 2500000.0, 1200000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('lrodriguez', 'lrodriguez@yahoo.com', 'mypass789', '3201122334', 4000000.0, 2000000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('cmartinez', 'cmartinez@gmail.com', 'secure123', '3154445566', 3500000.0, 1800000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('alopez', 'alopez@outlook.com', 'pass2024', '3187778899', 2800000.0, 1400000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('sgonzalez', 'sgonzalez@gmail.com', 'admin456', '3123334455', 5000000.0, 2500000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('dhernandez', 'dhernandez@hotmail.com', 'user789', '3165556677', 3200000.0, 1600000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('rdiaz', 'rdiaz@gmail.com', 'mykey123', '3198889900', 2700000.0, 1350000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('ftorres', 'ftorres@yahoo.com', 'passw0rd', '3141112233', 4500000.0, 2250000.0);
-INSERT INTO usuario (username, correo_electronico, password, celular, ingresos, gastos) VALUES ('vramirez', 'vramirez@gmail.com', 'secure789', '3176667788', 3300000.0, 1650000.0);
+-- Insertar usuarios de ejemplo
+INSERT INTO usuarios (rol, correo, username, password) VALUES ('ADMIN', 'admin@easysave.com', 'admin', 'admin123');
+INSERT INTO usuarios (rol, correo, username, password) VALUES ('USER', 'juan@gmail.com', 'juan', 'juan123');
+INSERT INTO usuarios (rol, correo, username, password) VALUES ('USER', 'maria@gmail.com', 'maria', 'maria123');
+
+-- Insertar ingresos de ejemplo para el usuario juan (id=2)
+INSERT INTO ingresos (nombre_ingreso, valor_ingreso, estado_ingreso, usuario_id) VALUES ('Salario', 3000000, 'fijo', 2);
+INSERT INTO ingresos (nombre_ingreso, valor_ingreso, estado_ingreso, usuario_id) VALUES ('Freelance', 500000, 'variable', 2);
+INSERT INTO ingresos (nombre_ingreso, valor_ingreso, estado_ingreso, usuario_id) VALUES ('Ventas Online', 200000, 'variable', 2);
+
+-- Insertar gastos de ejemplo para el usuario juan (id=2)
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Arriendo', 800000, 'fijo', 2);
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Servicios', 200000, 'fijo', 2);
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Mercado', 400000, 'variable', 2);
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Entretenimiento', 150000, 'variable', 2);
+
+-- Insertar ingresos de ejemplo para el usuario maria (id=3)
+INSERT INTO ingresos (nombre_ingreso, valor_ingreso, estado_ingreso, usuario_id) VALUES ('Salario', 2500000, 'fijo', 3);
+INSERT INTO ingresos (nombre_ingreso, valor_ingreso, estado_ingreso, usuario_id) VALUES ('Bonificación', 300000, 'variable', 3);
+
+-- Insertar gastos de ejemplo para el usuario maria (id=3)
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Arriendo', 700000, 'fijo', 3);
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Transporte', 150000, 'fijo', 3);
+INSERT INTO gastos (nombre_gasto, valor_gasto, estado_gasto, usuario_id) VALUES ('Alimentación', 300000, 'variable', 3);
