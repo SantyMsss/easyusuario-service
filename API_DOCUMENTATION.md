@@ -234,7 +234,7 @@ http://localhost:8080
    ```
    POST http://localhost:8080/api/v1/usuario-service/usuarios/2/gastos
    {
-     "nombreGasto": "Gimnasio",
+     "nombreGasto": "Gimnasio", 
      "valorGasto": 100000,
      "estadoGasto": "fijo"
    }
