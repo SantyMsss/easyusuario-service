@@ -40,6 +40,10 @@ public class Usuario {
     @JsonIgnoreProperties("usuario")
     private List<Gasto> gastos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("usuario")
+    private List<MetaAhorro> metasAhorro = new ArrayList<>();
+
     // Métodos helper para mantener la consistencia bidireccional
     public void addIngreso(Ingreso ingreso) {
         ingresos.add(ingreso);
@@ -59,5 +63,15 @@ public class Usuario {
     public void removeGasto(Gasto gasto) {
         gastos.remove(gasto);
         gasto.setUsuario(null);
+    }
+
+    public void addMetaAhorro(MetaAhorro metaAhorro) {
+        metasAhorro.add(metaAhorro);
+        metaAhorro.setUsuario(this);
+    }
+
+    public void removeMetaAhorro(MetaAhorro metaAhorro) {
+        metasAhorro.remove(metaAhorro);
+        metaAhorro.setUsuario(null);
     }
 }

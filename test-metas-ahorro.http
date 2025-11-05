@@ -1,0 +1,172 @@
+### ============================================
+### MÓDULO DE AHORRO PROGRAMADO - EJEMPLOS
+### ============================================
+
+### Variables
+@baseUrl = http://localhost:8080/api/v1/usuario-service
+@usuarioId = 2
+@metaId = 1
+@cuotaId = 1
+
+### ============================================
+### 1. VER RESUMEN FINANCIERO DEL USUARIO
+### ============================================
+GET {{baseUrl}}/usuarios/{{usuarioId}}/resumen-financiero
+Content-Type: application/json
+
+### ============================================
+### 2. CALCULAR SUGERENCIA DE AHORRO
+### Parámetros opcionales:
+### - porcentajeBalance (default: 20)
+### - numeroCuotas (default: 12)
+### - frecuencia (default: MENSUAL)
+### ============================================
+
+### Ejemplo 1: Ahorrar 25% del balance en 12 cuotas mensuales
+GET {{baseUrl}}/usuarios/{{usuarioId}}/sugerencia-ahorro?porcentajeBalance=25&numeroCuotas=12&frecuencia=MENSUAL
+Content-Type: application/json
+
+### Ejemplo 2: Ahorrar 30% del balance en 6 cuotas quincenales
+GET {{baseUrl}}/usuarios/{{usuarioId}}/sugerencia-ahorro?porcentajeBalance=30&numeroCuotas=6&frecuencia=QUINCENAL
+Content-Type: application/json
+
+### Ejemplo 3: Ahorrar 20% del balance en 24 cuotas semanales
+GET {{baseUrl}}/usuarios/{{usuarioId}}/sugerencia-ahorro?porcentajeBalance=20&numeroCuotas=24&frecuencia=SEMANAL
+Content-Type: application/json
+
+### ============================================
+### 3. CREAR META DE AHORRO
+### ============================================
+
+### Ejemplo 1: Meta para vacaciones
+POST {{baseUrl}}/usuarios/{{usuarioId}}/metas-ahorro
+Content-Type: application/json
+
+{
+  "nombreMeta": "Vacaciones Caribe 2026",
+  "montoObjetivo": 2000000,
+  "numeroCuotas": 10,
+  "frecuenciaCuota": "MENSUAL",
+  "porcentajeBalance": 25
+}
+
+### Ejemplo 2: Fondo de emergencia
+POST {{baseUrl}}/usuarios/{{usuarioId}}/metas-ahorro
+Content-Type: application/json
+
+{
+  "nombreMeta": "Fondo de Emergencia",
+  "montoObjetivo": 5000000,
+  "numeroCuotas": 12,
+  "frecuenciaCuota": "MENSUAL",
+  "porcentajeBalance": 30
+}
+
+### Ejemplo 3: Ahorro para tecnología
+POST {{baseUrl}}/usuarios/{{usuarioId}}/metas-ahorro
+Content-Type: application/json
+
+{
+  "nombreMeta": "Nueva Laptop",
+  "montoObjetivo": 3000000,
+  "numeroCuotas": 6,
+  "frecuenciaCuota": "QUINCENAL",
+  "porcentajeBalance": 20
+}
+
+### ============================================
+### 4. LISTAR METAS DE AHORRO
+### ============================================
+
+### Todas las metas del usuario
+GET {{baseUrl}}/usuarios/{{usuarioId}}/metas-ahorro
+Content-Type: application/json
+
+### Solo metas activas
+GET {{baseUrl}}/usuarios/{{usuarioId}}/metas-ahorro/activas
+Content-Type: application/json
+
+### ============================================
+### 5. VER DETALLES DE UNA META
+### ============================================
+GET {{baseUrl}}/metas-ahorro/{{metaId}}
+Content-Type: application/json
+
+### ============================================
+### 6. PAGAR CUOTA
+### ============================================
+POST {{baseUrl}}/metas-ahorro/{{metaId}}/cuotas/{{cuotaId}}/pagar
+Content-Type: application/json
+
+### ============================================
+### 7. CANCELAR META
+### ============================================
+DELETE {{baseUrl}}/metas-ahorro/{{metaId}}
+Content-Type: application/json
+
+### ============================================
+### 8. ACTUALIZAR CUOTAS VENCIDAS
+### ============================================
+POST {{baseUrl}}/metas-ahorro/actualizar-vencidas
+Content-Type: application/json
+
+### ============================================
+### FLUJO COMPLETO DE EJEMPLO
+### ============================================
+
+### Paso 1: Ver mi balance actual
+GET {{baseUrl}}/usuarios/2/resumen-financiero
+
+### Paso 2: Pedir sugerencia (30% en 12 meses)
+GET {{baseUrl}}/usuarios/2/sugerencia-ahorro?porcentajeBalance=30&numeroCuotas=12&frecuencia=MENSUAL
+
+### Paso 3: Crear la meta basada en la sugerencia
+POST {{baseUrl}}/usuarios/2/metas-ahorro
+Content-Type: application/json
+
+{
+  "nombreMeta": "Mi Primer Ahorro",
+  "montoObjetivo": 675000,
+  "numeroCuotas": 12,
+  "frecuenciaCuota": "MENSUAL",
+  "porcentajeBalance": 30
+}
+
+### Paso 4: Ver detalles de la meta creada (usar el ID de la respuesta anterior)
+GET {{baseUrl}}/metas-ahorro/1
+
+### Paso 5: Pagar primera cuota
+POST {{baseUrl}}/metas-ahorro/1/cuotas/1/pagar
+
+### Paso 6: Ver progreso actualizado
+GET {{baseUrl}}/metas-ahorro/1
+
+### ============================================
+### ENDPOINTS DE INGRESOS Y GASTOS (para contexto)
+### ============================================
+
+### Ver todos los ingresos del usuario
+GET {{baseUrl}}/usuarios/2/ingresos
+
+### Ver todos los gastos del usuario
+GET {{baseUrl}}/usuarios/2/gastos
+
+### Agregar nuevo ingreso
+POST {{baseUrl}}/usuarios/2/ingresos
+Content-Type: application/json
+
+{
+  "nombreIngreso": "Bono Anual",
+  "valorIngreso": 1000000,
+  "estadoIngreso": "variable"
+}
+
+### Agregar nuevo gasto
+POST {{baseUrl}}/usuarios/2/gastos
+Content-Type: application/json
+
+{
+  "nombreGasto": "Streaming",
+  "valorGasto": 50000,
+  "estadoGasto": "fijo"
+}
