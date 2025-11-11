@@ -4,6 +4,8 @@
 
 Autenticación basada en JWT (JSON Web Token) implementada con Spring Security para ser consumida desde Flutter.
 
+**Incluye autenticación biométrica** mediante reconocimiento facial usando DeepFace (Python).
+
 ## 🔑 Endpoints de Autenticación
 
 ### Base URL
@@ -13,7 +15,18 @@ http://localhost:8080/api/v1/auth
 
 ---
 
-## 1️⃣ Registro de Usuario
+## 🆕 AUTENTICACIÓN FACIAL (KYC)
+
+### 📸 Características
+- **Registro con rostro**: Captura facial durante el registro
+- **Login facial**: Autenticación sin contraseña usando tu rostro
+- **Tecnología**: DeepFace (Python) con modelo Facenet512
+- **Precisión**: 95%+ de accuracy
+- **Seguridad**: Embeddings cifrados, liveness detection
+
+---
+
+## 1️⃣ Registro de Usuario Tradicional
 
 ### **POST** `/api/v1/auth/register`
 
@@ -51,7 +64,7 @@ Registra un nuevo usuario y retorna un token JWT.
 
 ---
 
-## 2️⃣ Login de Usuario
+## 2️⃣ Login de Usuario Tradicional
 
 ### **POST** `/api/v1/auth/login`
 
@@ -87,7 +100,130 @@ Autentica un usuario existente y retorna un token JWT.
 
 ---
 
-## 3️⃣ Test de Autenticación
+## 3️⃣ Registro con Reconocimiento Facial 🆕
+
+### **POST** `/api/v1/auth/register-face`
+
+Registra un nuevo usuario con autenticación facial. Captura y almacena el encoding facial del usuario.
+
+**Request Body:**
+```json
+{
+  "username": "maria",
+  "correo": "maria@example.com",
+  "password": "password123",
+  "rol": "USER",
+  "faceImageBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+}
+```
+
+**Parámetros:**
+- `username`: Nombre de usuario único
+- `correo`: Email único
+- `password`: Contraseña (requerida como respaldo)
+- `rol`: Rol del usuario (USER o ADMIN)
+- `faceImageBase64`: Imagen facial en formato Base64 (puede incluir el prefijo data:image/...)
+
+**Requisitos de la imagen:**
+- Formato: JPG, PNG
+- Rostro claramente visible
+- Buena iluminación
+- Fondo uniforme (recomendado)
+- Una sola persona en la imagen
+- Vista frontal del rostro
+
+**Response (201 Created):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "id": 2,
+  "username": "maria",
+  "correo": "maria@example.com",
+  "rol": "USER"
+}
+```
+
+**Error Response (400 Bad Request):**
+```json
+{
+  "error": "Error en el registro facial",
+  "message": "No se detectó ningún rostro en la imagen"
+}
+```
+
+**Posibles errores:**
+- "No se detectó ningún rostro en la imagen"
+- "La calidad de la imagen facial es baja"
+- "El servicio de reconocimiento facial no está disponible"
+- "El username ya está en uso"
+
+---
+
+## 4️⃣ Login con Reconocimiento Facial 🆕
+
+### **POST** `/api/v1/auth/login-face`
+
+Autentica un usuario mediante su rostro, sin necesidad de contraseña.
+
+**Request Body (con username):**
+```json
+{
+  "username": "maria",
+  "faceImageBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+}
+```
+
+**Request Body (sin username - búsqueda en todos los usuarios):**
+```json
+{
+  "faceImageBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+}
+```
+
+**Parámetros:**
+- `faceImageBase64`: Imagen facial en formato Base64
+- `username` (opcional): Si se proporciona, solo verifica ese usuario (más rápido). Si no se proporciona, busca en todos los usuarios registrados con reconocimiento facial.
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Autenticación facial exitosa",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "type": "Bearer",
+    "id": 2,
+    "username": "maria",
+    "correo": "maria@example.com",
+    "rol": "USER"
+  }
+}
+```
+
+**Error Response (401 Unauthorized):**
+```json
+{
+  "error": "Error en la autenticación facial",
+  "message": "No se pudo verificar la identidad facial"
+}
+```
+
+**Posibles errores:**
+- "No se pudo verificar la identidad facial"
+- "Usuario no encontrado"
+- "Este usuario no tiene reconocimiento facial configurado"
+- "El servicio de reconocimiento facial no está disponible"
+
+**💡 Recomendaciones:**
+- Proporciona el `username` para autenticación más rápida
+- Asegura buena iluminación al capturar el rostro
+- Mantén el rostro centrado en la imagen
+- Evita accesorios que cubran el rostro (lentes oscuros, máscaras)
+
+---
+
+## 5️⃣ Test de Autenticación
 
 ### **GET** `/api/v1/auth/test`
 
@@ -105,6 +241,33 @@ Authorization: Bearer {tu-token-jwt}
   "status": "authenticated"
 }
 ```
+
+---
+
+## 🤖 Arquitectura de Reconocimiento Facial
+
+### Componentes:
+1. **Flutter App** → Captura imagen con cámara
+2. **Spring Boot API** → Recibe imagen, gestiona usuarios
+3. **Python DeepFace Service** → Procesa imagen, genera embeddings
+4. **PostgreSQL** → Almacena usuarios y embeddings faciales
+
+### Flujo de Registro:
+```
+Usuario toma selfie → Flutter envía Base64 → Spring Boot → Python DeepFace
+→ Genera embedding → Spring Boot guarda en BD → Retorna JWT token
+```
+
+### Flujo de Login:
+```
+Usuario toma selfie → Flutter envía Base64 → Spring Boot → Python DeepFace
+→ Compara con embeddings guardados → Verifica identidad → Retorna JWT token
+```
+
+### Modelo Utilizado:
+- **Facenet512**: 512 dimensiones, alta precisión (95%+)
+- **Métrica**: Distancia coseno
+- **Umbral**: 0.30 (ajustable según necesidad de seguridad)
 
 ---
 

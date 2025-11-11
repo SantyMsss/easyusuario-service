@@ -1,0 +1,19 @@
+# Archivos temporales
+temp_images/
+*.pyc
+__pycache__/
+venv/
+.env
+
+# Modelos descargados por DeepFace
+.deepface/
+weights/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log

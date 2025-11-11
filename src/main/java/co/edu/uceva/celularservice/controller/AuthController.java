@@ -1,8 +1,6 @@
 package co.edu.uceva.celularservice.controller;
 
-import co.edu.uceva.celularservice.model.dto.AuthResponse;
-import co.edu.uceva.celularservice.model.dto.LoginRequest;
-import co.edu.uceva.celularservice.model.dto.RegisterRequest;
+import co.edu.uceva.celularservice.model.dto.*;
 import co.edu.uceva.celularservice.model.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,5 +64,45 @@ public class AuthController {
         response.put("message", "¡Autenticación exitosa!");
         response.put("status", "authenticated");
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint para registro de usuario con reconocimiento facial
+     * @param registerFaceRequest contiene username, correo, password, rol y imagen facial en Base64
+     * @return JWT token y datos del usuario registrado
+     */
+    @PostMapping("/register-face")
+    public ResponseEntity<?> registerWithFace(@RequestBody RegisterFaceRequest registerFaceRequest) {
+        try {
+            AuthResponse response = authService.registerWithFace(registerFaceRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error en el registro facial");
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
+    /**
+     * Endpoint para login mediante reconocimiento facial
+     * @param faceLoginRequest contiene imagen facial en Base64 y opcionalmente el username
+     * @return JWT token y datos del usuario autenticado
+     */
+    @PostMapping("/login-face")
+    public ResponseEntity<?> loginWithFace(@RequestBody FaceLoginRequest faceLoginRequest) {
+        try {
+            AuthResponse response = authService.loginWithFace(faceLoginRequest);
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("success", true);
+            successResponse.put("message", "Autenticación facial exitosa");
+            successResponse.put("data", response);
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error en la autenticación facial");
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
     }
 }
