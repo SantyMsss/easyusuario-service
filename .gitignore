@@ -1,4 +1,3 @@
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -31,3 +30,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Variables ###
+.env
+.env.local
+*.env
+
+### Logs ###
+*.log
+logs/
+
+### Python (para face-recognition-service) ###
+face-recognition-service/venv/
+face-recognition-service/__pycache__/
+face-recognition-service/*.pyc
+face-recognition-service/.pytest_cache/
+
+### Sistema Operativo ###
+.DS_Store
+Thumbs.db
