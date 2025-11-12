@@ -1,0 +1,74 @@
+# ============================================
+# .dockerignore - Archivos a excluir del build
+# ============================================
+
+# Build artifacts
+target/
+!target/celular-service-0.0.1-SNAPSHOT.jar
+*.jar
+*.war
+*.ear
+*.class
+
+# IDEs
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+logs/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+HELP.md
+API_DOCUMENTATION.md
+JWT_AUTHENTICATION_GUIDE.md
+RAILWAY_*.md
+RESUMEN_*.md
+
+# Test files
+*.http
+test-*.http
+
+# Environment
+.env
+.env.*
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Maven wrapper (ya está en la imagen base)
+.mvn/wrapper/maven-wrapper.jar
+
+# Python (face-recognition-service)
+face-recognition-service/
+*.pyc
+__pycache__/
+venv/
+*.py
+
+# Railway config (no necesario dentro del container)
+railway.json
+Procfile
+
+# Otros
+*.tmp
+*.bak
+*.swp
+*~
