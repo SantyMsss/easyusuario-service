@@ -372,7 +372,7 @@ Future<void> getResumenFinanciero(int usuarioId) async {
 ## ⚙️ Configuración
 
 ### Tiempo de expiración del token
-Por defecto: **24 horas (86400000 ms)**
+Por defecto: **24 horas (300000 ms)**
 
 Para cambiar, edita `application.properties`:
 ```properties

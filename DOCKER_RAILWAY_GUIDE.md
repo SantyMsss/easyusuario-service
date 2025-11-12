@@ -235,7 +235,7 @@ Railway inyecta automáticamente estas variables:
 JWT_SECRET=[genera uno único de 64+ caracteres]
 
 # Expiration (opcional, tiene default)
-JWT_EXPIRATION=86400000
+JWT_EXPIRATION=300000
 
 # Spring Profile (opcional, ya está en Dockerfile)
 SPRING_PROFILES_ACTIVE=railway
