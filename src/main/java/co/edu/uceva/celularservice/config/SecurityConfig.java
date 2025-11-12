@@ -56,6 +56,8 @@ public class SecurityConfig {
                 // Endpoints públicos (sin autenticación)
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/usuario-service/usuario").permitAll() // Permitir registro
+                .requestMatchers("/actuator/health/**").permitAll() // Health checks para Railway
+                .requestMatchers("/actuator/info").permitAll() // Info endpoint
                 
                 // Todos los demás endpoints requieren autenticación
                 .anyRequest().authenticated()
